@@ -1,0 +1,16 @@
+/* anexa uma sombra a todos elementos */
+* {
+    box-shadow: inset 0px 0px 2px red;
+}
+
+.boxblack{
+    box-shadow: inset 0px 0px 4px black;
+}
+
+.boxblue{
+    box-shadow: inset 0px 0px 4px blue;
+}
+
+.boxgreen{
+    box-shadow: inset 0px 0px 4px green;
+}
