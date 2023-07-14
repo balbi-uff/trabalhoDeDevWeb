@@ -18,8 +18,11 @@
                 <h1>Área Restrita</h1>
                 <%
                     Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
-                    out.println("<h3>Usuário logado com sucesso</h3>");
-                    out.println("<h2>Nome: " + usuarioLogado.getNome() + "</h2>");
+                    out.println("<br>");
+                    out.println("<h3>Por favor, faça login com um usuário autorizado para acessar o conteúdo.</p>");
+                    out.println("<h3>Nome do usuário logado: " + usuarioLogado.getNome() + "</h2>");
+                    out.println("<h3>ME REMOVA DEPOIS! id / status: " + usuarioLogado.getId() + "|" + usuarioLogado.getStatus() + "</h2>");
+                    
                 %>
 
 

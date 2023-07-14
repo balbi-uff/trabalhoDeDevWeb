@@ -41,7 +41,7 @@
                         <input type="password" name="senha" value="111" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="senha" class="form-label">Redigite a senha</label>
+                        <label for="senha" class="form-label">Digite novamente a senha</label>
                         <input type="password" name="senha2" value="111" class="form-control">
                     </div>
                     <div class="row">

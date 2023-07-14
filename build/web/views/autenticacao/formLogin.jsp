@@ -16,30 +16,32 @@
 
                 <h3>Login</h3>
 
-                <%
-                    String msgError = (String) request.getAttribute("msgError");
-                    if ((msgError != null) && (!msgError.isEmpty())) {%>
-                <div class="alert alert-danger" role="alert">
-                    <%= msgError%>
-                </div>
-                <% }%>
                 <form action="/aplicacaoMVC/AutenticaController?acao=login" method="POST">
                     <div class="mb-3">
                         <label for="cpf" class="form-label">CPF</label>
-                        <input type="text" name="cpf" value="249.252.810-38" class="form-control">
+                        <input type="text" name="cpf" value="" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label for="senha" class="form-label">Senha</label>
-                        <input type="password" name="senha" value="123" class="form-control">
+                        <input type="password" name="senha" value="" class="form-control">
                     </div>
+                    <%
+                        String msgError = (String) request.getAttribute("msgError");
+                        if ((msgError != null) && (!msgError.isEmpty())) {%>
+                    <div class="alert alert-danger" role="alert">
+                        <%= msgError%>
+                    </div>
+                    <% }%>
                     <div class="row">
                         <div class="col-sm-2">
                             <input type="submit" value="Enviar" class="btn btn-primary">  
                         </div>
                         <div class="col-sm-6">                                
-                            <h6>Não possui acesso <a href="/aplicacaoMVC/RegistrarController">Registre-se aqui</a></h6>
+                            <h6>Não possui acesso? <a href="/aplicacaoMVC/RegistrarController">Registre-se aqui!</a></h6>
                         </div>
                 </form>
+
+
             </div>
         </div>
         <script src="http://localhost:8080/aplicacaoMVC/views/bootstrap/bootstrap.bundle.min.js"></script>
