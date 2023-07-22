@@ -1,9 +1,3 @@
-<%--
-    Document   : dashboard
-    Created on : 14 Jul 2023, 17:24:10
-    Author     : balbi
---%>
-
 <%@page import="model.UsuarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
@@ -32,7 +26,6 @@
                         <% if (usuario.getStatus().equals("N")) {%>
                         <div class="card mb-3">
                             <div class="card-body d-flex justify-content-between">
-                                <!-- Customize the content of each block based on your Usuario properties -->
                                 <h3><%= usuario.getNome()%></h3>
                                 <form action="AprovarUsuarioController" method="POST">
                                     <input type="hidden" name="usuarioId" value="<%= usuario.getId()%>">

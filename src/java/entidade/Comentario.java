@@ -61,11 +61,11 @@ public class Comentario {
     public void setIdusuario(int idusuario) {
         this.idusuario = idusuario;
     }
-        public String getNomeususario() {
+        public String getNomeusuario() {
         return nomeususario;
     }
 
-    public void setNomeususario(String nomeususario) {
+    public void setNomeusuario(String nomeususario) {
         this.nomeususario = nomeususario;
     }
 

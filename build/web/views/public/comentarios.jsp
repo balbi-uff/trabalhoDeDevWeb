@@ -24,6 +24,8 @@
                 <div class="card mb-2 col-sm-6">
                     <div class="card-body">
                         <%= comentario.getComentario()%>
+                        <%= comentario.getData() %>
+                        <%= comentario.getNomeusuario() %>
                     </div>
                 </div>
 
