@@ -27,20 +27,41 @@
                 <div class="row">
                     <div class="col">
                         <br>
-                        <h1>LISTA DE USUÁRIOS PENDENTE DE APROVAÇÃO</h1>
+                        <h1>LISTA DE USUÁRIOS</h1>
+                        <br>
                         <% for (Usuario usuario : ListaDeUsuarios) { %>
-                        <% if (usuario.getStatus().equals("N")) {%>
-                        <div class="card mb-3">
-                            <div class="card-body d-flex justify-content-between">
-                                <!-- Customize the content of each block based on your Usuario properties -->
-                                <h3><%= usuario.getNome()%></h3>
-                                <form action="AprovarUsuarioController" method="POST">
-                                    <input type="hidden" name="usuarioId" value="<%= usuario.getId()%>">
-                                    <input type="submit" value="APROVAR USUÁRIO" class="btn btn-primary">
-                                </form>
+                            <% if (usuario.getStatus().equals("N")) {%>
+                            <div class="card mb-3">
+                                <div class="card-body d-flex justify-content-between">
+                                    <h3><%= usuario.getNome()%></h3>
+                                    <p><i>pendente de aprovação!</i></p>
+                                    <form action="UsuarioController" method="POST">
+                                        <input type="hidden" name="usuarioId" value="<%= usuario.getId()%>">
+                                        <input type="hidden" name="type" value="aprovar">
+                                        <input type="submit" value="APROVAR USUÁRIO" class="btn btn-primary">
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                        <% } %>
+                            <% } else {%>
+                            <div class="card mb-3">
+                                <div class="card-body d-flex justify-content-between">
+                                    <h3><%= usuario.getNome()%></h3>
+                                    <input type="submit" value="APROVADO" class="btn btn-info">
+                                    
+                                    <form action="UsuarioController" method="GET">
+                                        <input type="hidden" name="usuarioId" value="<%= usuario.getId()%>">
+                                        <input type="hidden" name="type" value="alterar">
+                                        <input type="submit" value="ALTERAR USUÁRIO" class="btn btn-warning">
+                                    </form>
+                                    
+                                    <form action="UsuarioController" method="POST">
+                                        <input type="hidden" name="usuarioId" value="<%= usuario.getId()%>">
+                                        <input type="hidden" name="type" value="deletar">
+                                        <input type="submit" value="DELETAR USUÁRIO" class="btn btn-danger">
+                                    </form>
+                                </div>
+                            </div>
+                            <%}%>
                         <% }%>
                     </div>
                 </div>

@@ -1,137 +1,92 @@
 package controller;
 
+import model.UsuarioDAO;
 import entidade.Usuario;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.UsuarioDAO;
+import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "UsuarioController", urlPatterns = {"/admin/UsuarioController"})
+@WebServlet("/UsuarioController")
 public class UsuarioController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        // get parametro ação indicando o que fazer
-        String acao = (String) request.getParameter("acao");
-        Usuario usuario = new Usuario();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd;
+        HttpSession session = request.getSession();
+
+        String type = request.getParameter("type");
+        String usuarioId = request.getParameter("usuarioId");
+
+        System.out.println("Received usuarioId: " + usuarioId);
         
-        switch (acao) {
-            case "Listar":
-                ArrayList<Usuario> listaUsuarios = usuarioDAO.getAll();
-                request.setAttribute("listaUsuarios", listaUsuarios);
+        session.setAttribute("type", type);
+        session.setAttribute("usuarioId", usuarioId);
 
-                rd = request.getRequestDispatcher("/views/admin/usuario/listaUsuarios.jsp");
-                rd.forward(request, response);
-
-                break;
-            case "Alterar":
-            case "Excluir":
-
-                // get parametro ação indicando sobre qual usuário será a ação
-                int id = Integer.parseInt(request.getParameter("ID"));
-                usuario = usuarioDAO.getUsuario(id);
-
-
-                request.setAttribute("usuario", usuario);
-                request.setAttribute("msgError", "");
-                request.setAttribute("acao", acao);
-
-                rd = request.getRequestDispatcher("/views/admin/autenticacao/formLogin.jsp");
-                rd.forward(request, response);
-                break;
-            case "Incluir":
-                request.setAttribute("usuario", usuario);
-                request.setAttribute("msgError", "");
-                request.setAttribute("acao", acao);
-
-                rd = request.getRequestDispatcher("/views/admin/autenticacao/formLogin.jsp");
-                rd.forward(request, response);
-        }
-
+        rd = request.getRequestDispatcher("/views/admin/usuario/formAlterar.jsp");
+        rd.forward(request, response);
     }
 
-
-    
-    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String type = request.getParameter("type");
+        String usuarioId = request.getParameter("usuarioId");
+        if (type != null && !type.isEmpty()) {
+            switch (type) {
+                case "aprovar":
+                    aprovarUsuario(usuarioId);
+                    break;
+                // Update
+                case "alterar":
+                    String nome = request.getParameter("nome");
+                    String endereco = request.getParameter("endereco");
+                    String cpf = request.getParameter("cpf");
+                    String senha = request.getParameter("senha");
+                    {
+                        try {
+                            alterarUsuario(usuarioId, nome, endereco, cpf, senha);
+                        } catch (Exception ex) {
+                            throw new RuntimeException("Erro na alteração: " + ex);
+                        }
+                    }
+                    break;
 
-        int id = Integer.parseInt(request.getParameter("id"));
-        String nome = request.getParameter("nome");
-        //String cpf = request.getParameter("cpf");
-       // String endereco = request.getParameter("endereco");
-       // String senha = request.getParameter("senha");
-        
-        String btEnviar = request.getParameter("btEnviar");
-
-        RequestDispatcher rd;
-
-        if (nome.isEmpty()) {
-            Usuario usuario = new Usuario();
-            switch (btEnviar) {
-                case "Alterar":
-                case "Excluir":
+                // Delete
+                case "deletar": {
                     try {
-                    UsuarioDAO usuarioDAO = new UsuarioDAO();
-                    usuario = usuarioDAO.get(id);
-
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                    throw new RuntimeException("Falha em uma query para cadastro de usuario");
+                        deletarUsuario(usuarioId);
+                    } catch (Exception ex) {
+                        throw new RuntimeException("Erro na deleção: " + ex);
+                    }
                 }
-                break;
-            }
-
-            request.setAttribute("usuario", usuario);
-            request.setAttribute("acao", btEnviar);
-
-            request.setAttribute("msgError", "É necessário preencher todos os campos");
-
-            rd = request.getRequestDispatcher("/views/admin/autenticacao/formLogin.jsp");
-            rd.forward(request, response);
-
-        } else {
-            
-             Usuario usuario = new Usuario ();
-             UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-            try {
-                switch (btEnviar) {
-                    case "Incluir":
-                        usuarioDAO.Inserir(usuario);
-                        request.setAttribute("msgOperacaoRealizada", "Inclusão realizada com sucesso");
-                        break;
-                    case "Alterar":
-                        usuarioDAO.Alterar(usuario);
-                        request.setAttribute("msgOperacaoRealizada", "Alteração realizada com sucesso");
-                        break;
-                    case "Excluir":
-                        usuarioDAO.Excluir(usuario);
-                        request.setAttribute("msgOperacaoRealizada", "Exclusão realizada com sucesso");
-                        break;
-                }
-
-                request.setAttribute("link", "/aplicacaoMVC/admin/UsuarioController?acao=Listar");
-                rd = request.getRequestDispatcher("../views/comum/showMessage.jsp");
-                rd.forward(request, response);
-
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                throw new RuntimeException("Falha em uma query para cadastro de usuario");
+                default:
+                    break;
             }
         }
+
+        // Redirect back to the dashboard after processing the action
+        response.sendRedirect(request.getContextPath() + "/admin/dashboard");
     }
 
-}
+    private void aprovarUsuario(String usuarioId) {
+        UsuarioDAO.aprovarUsuario(usuarioId);
+    }
 
+    private void deletarUsuario(String usuarioId) throws Exception {
+        UsuarioDAO.ExcluirPorId(usuarioId);
+    }
+
+    private void alterarUsuario(String usuarioId, String nome, String endereco, String cpf, String senha) throws Exception {
+
+        Usuario user = new Usuario(nome, cpf, endereco, senha);
+        user.setId(Integer.parseInt(usuarioId));
+        UsuarioDAO.Alterar(user);
+
+    }
+}

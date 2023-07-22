@@ -39,8 +39,38 @@ public class UsuarioDAO {
         }
     }
 
+ public static String getNomeUsuarioById(int id) {
+    Conexao conexao = new Conexao();
+    String nomeUsuario = null;
     
-    public Usuario getUsuario(int id) throws Exception {
+    try {
+        PreparedStatement sql = conexao.getConexao().prepareStatement("SELECT * FROM usuarios WHERE ID = ?");
+        sql.setInt(1, id);
+        ResultSet resultSet = sql.executeQuery();
+        
+        if (resultSet.next()) {
+            // Assuming the column name for the "nome" field is "nome" in the "usuarios" table
+            nomeUsuario = resultSet.getString("nome");
+        }
+        
+        resultSet.close();
+        sql.close();
+        
+    } catch (SQLException e) {
+        // Handle the exception (logging, throwing, or any other appropriate action)
+        throw new RuntimeException("Query de select (get) incorreta");
+    } finally {
+        conexao.closeConexao();
+    }
+    
+    return nomeUsuario;
+}
+ 
+    public static Usuario getUsuario(String id) throws Exception {
+        return getUsuario(Integer.parseInt(id));
+    }
+    
+    public static Usuario getUsuario(int id) throws Exception {
         Conexao conexao = new Conexao();
         try {
             Usuario usuario = new Usuario();
@@ -82,7 +112,7 @@ public class UsuarioDAO {
     }
     
     
-    public void Alterar(Usuario Usuario) throws Exception {
+    public static void Alterar(Usuario Usuario) throws Exception {
         Conexao conexao = new Conexao();
         try {
             PreparedStatement sql = conexao.getConexao().prepareStatement("UPDATE usuarios SET nome = ?, cpf = ?, endereco = ?, senha = ?  WHERE ID = ? ");
@@ -100,7 +130,7 @@ public class UsuarioDAO {
         }
     }
 
-    public void Excluir(Usuario Usuario) throws Exception {
+    public static void Excluir(Usuario Usuario) throws Exception {
         Conexao conexao = new Conexao();
         try {
             PreparedStatement sql = conexao.getConexao().prepareStatement("DELETE FROM usuarios WHERE ID = ? ");
@@ -114,6 +144,20 @@ public class UsuarioDAO {
         }
     }
 
+    public static void ExcluirPorId(String id) throws Exception {
+        Conexao conexao = new Conexao();
+        try {
+            PreparedStatement sql = conexao.getConexao().prepareStatement("DELETE FROM usuarios WHERE ID = ? ");
+            sql.setString(1, id);
+            sql.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Query de delete (excluir) incorreta");
+        } finally {
+            conexao.closeConexao();
+        }
+    }
+    
     public static ArrayList<Usuario> ListaDeUsuarios() {
         ArrayList<Usuario> meusUsuarios = new ArrayList();
         Conexao conexao = new Conexao();

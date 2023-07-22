@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.UsuarioDAO;
 import Utils.RequestUtils;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 @WebServlet(name = "RegistrarController", urlPatterns = {"/RegistrarController"})

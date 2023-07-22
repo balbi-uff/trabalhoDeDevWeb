@@ -1,5 +1,7 @@
 package entidade;
 
+import model.UsuarioDAO;
+
 public class Comentario {
 
     private int id;
@@ -7,7 +9,7 @@ public class Comentario {
     private String data;
     private int idusuario;
     private int idcategoria;
-    private String nomeususario;
+    private String nomeUsuario;
     private String nomeCategoria;
 
     public Comentario() {
@@ -16,7 +18,7 @@ public class Comentario {
         this.data = "";
         this.idcategoria = 0;
         this.idusuario = 0;
-        this.nomeususario = "";
+        this.nomeUsuario = "";
         this.nomeCategoria = "";
     }
 
@@ -26,7 +28,7 @@ public class Comentario {
         this.data = data;
         this.idusuario = idusuario;
         this.idcategoria = idcategoria;
-        this.nomeususario = "";
+        this.nomeUsuario = "";
         this.nomeCategoria = "";
     }
 
@@ -61,12 +63,14 @@ public class Comentario {
     public void setIdusuario(int idusuario) {
         this.idusuario = idusuario;
     }
-        public String getNomeusuario() {
-        return nomeususario;
+
+    public String getNomeUsuario() {
+        int idComentario = this.getIdusuario();
+        return UsuarioDAO.getNomeUsuarioById(idComentario);
     }
 
-    public void setNomeusuario(String nomeususario) {
-        this.nomeususario = nomeususario;
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
     public int getIdcategoria() {
@@ -84,8 +88,5 @@ public class Comentario {
     public void setNomeCategoria(String nomeCategoria) {
         this.nomeCategoria = nomeCategoria;
     }
-    
-    
 
-    
 }

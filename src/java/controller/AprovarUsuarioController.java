@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,9 +15,11 @@ public class AprovarUsuarioController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd;
         String usuarioId = request.getParameter("usuarioId");
-
+         
         UsuarioDAO.aprovarUsuario(usuarioId);
-        response.sendRedirect("admin/dashboard");
+        rd = request.getRequestDispatcher("admin/dashboard");
+        rd.forward(request, response);
     }
 }
