@@ -11,13 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.UsuarioDAO;
 import Utils.RequestUtils;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Leonardo
- */
+
 @WebServlet(name = "RegistrarController", urlPatterns = {"/RegistrarController"})
 public class RegistrarController extends HttpServlet {
 

@@ -8,17 +8,19 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <%
-                    // testar se está logado
                     HttpSession sessao = request.getSession(false);
                     if (sessao != null) {
                         Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
-                        if (usuarioLogado != null) { %>
+        System.out.println("Session: " + sessao);
+        System.out.println("User: " + usuarioLogado);                
+        if (usuarioLogado != null) { %>
                             <a class="nav-link" href="/aplicacaoMVC/admin/dashboard">Dashboard</a>
+                            <a class="nav-link" href="/aplicacaoMVC/MostrarComentarios">Comentários</a>
                             <a class="nav-link" href="/aplicacaoMVC/admin/CategoriaController?acao=Listar">Categorias</a>
                             <a class="nav-link" href="/aplicacaoMVC/admin/logOut">Logout</a>
                 <%  } else { %>
                 
-                            <a class="nav-link" href="/aplicacaoMVC/MostrarComentarios">Coment&aacute;rios</a>
+                            <a class="nav-link" href="/aplicacaoMVC/MostrarComentarios">Comentários</a>
                             <a class="nav-link" href="/aplicacaoMVC/AutenticaController?acao=Login">Login</a>
                 <%    }
                     }%>

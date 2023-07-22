@@ -1,3 +1,4 @@
+<%@page import="model.UsuarioDAO"%>
 <%@page import="entidade.Comentario"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -19,11 +20,13 @@
 
                 <%
                     ArrayList<Comentario> listaComentarios = (ArrayList<Comentario>) request.getAttribute("listaComentarios");
-                    for (Comentario comentario : listaComentarios) {%>
+                    for (Comentario comentario : listaComentarios){ %>
 
                 <div class="card mb-2 col-sm-6">
                     <div class="card-body">
-                        <%= comentario.getComentario()%>
+                        <p><%= comentario.getComentario()%></p>
+                        <p>ID do usuário: <%= comentario.getNomeUsuario()%></p>
+                        <p>Data do comentário: <%= comentario.getData()%></p>
                     </div>
                 </div>
 

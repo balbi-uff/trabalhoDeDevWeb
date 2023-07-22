@@ -9,10 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/**
- *
- * @author hp
- */
 @WebServlet(name = "home", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
 

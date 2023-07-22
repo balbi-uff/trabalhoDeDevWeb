@@ -17,6 +17,14 @@ public class Usuario {
         this.status = status;
     }
 
+    public Usuario(String nome, String cpf, String endereco, String senha) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.endereco = endereco;
+        this.senha = senha;
+        this.status = "S";
+    }
+    
     public Usuario(String cpf, String senha) {
         this.cpf = cpf;
         this.senha = senha;
@@ -77,5 +85,4 @@ public class Usuario {
     public void setStatus(String status){
         this.status = status;
     }
-    
 }

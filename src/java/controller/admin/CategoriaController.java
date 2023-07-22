@@ -114,7 +114,7 @@ public class CategoriaController extends HttpServlet {
                 }
 
                 request.setAttribute("link", "/aplicacaoMVC/admin/CategoriaController?acao=Listar");
-                rd = request.getRequestDispatcher("/showMessage.jsp");
+                rd = request.getRequestDispatcher("../views/comum/showMessage.jsp");
                 rd.forward(request, response);
 
             } catch (Exception ex) {
