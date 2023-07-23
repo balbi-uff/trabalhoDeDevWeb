@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" import="entidade.Usuario"%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -15,7 +16,6 @@
             <div class="mt-5">
                 <h3>Bem vindo ao Trabalho de Desenvolvimento Web do André e da Dani!</h3>
                 
-
                 <%
                     // testar se está logado
                     HttpSession sessao = request.getSession(false);

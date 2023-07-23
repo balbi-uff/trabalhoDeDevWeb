@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `comentarios` (
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
  */
+
 public class ComentarioDAO implements Dao<Comentario> {
 
     @Override

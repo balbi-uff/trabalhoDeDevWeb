@@ -32,6 +32,10 @@ public class Comentario {
         this.nomeCategoria = "";
     }
 
+    public Comentario(int aInt, String string, String string0, int aInt0, int aInt1, String string1, String string2) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public int getId() {
         return id;
     }
