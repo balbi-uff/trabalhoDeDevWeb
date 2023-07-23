@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.ComentarioDAO;
 import entidade.Comentario;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import model.CategoriaDAO;
 
 
 @WebServlet(name = "MostrarComentariosAdmin", urlPatterns = {"/admin/MostrarComentariosAdmin"})
-public class MostrarComentariosAdmin extends HttpServlet {
+public class MostrarComentariosAdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -78,10 +80,16 @@ public class MostrarComentariosAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Data
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        
+        
         String btEnviar = request.getParameter("btEnviar");
         int idComentario = Integer.parseInt(request.getParameter("id"));
         String textoComentario = request.getParameter("texto");
-        String dataComentario = request.getParameter("data");
+        String dataComentario = formattedDateTime;
         int idUsuario = Integer.parseInt(request.getParameter("idusuario"));
         int idCategoria;
         if (btEnviar.equals("Excluir")) {
@@ -133,7 +141,7 @@ public class MostrarComentariosAdmin extends HttpServlet {
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            throw new RuntimeException("Falha em uma query para cadastro de comentário");
+            throw new RuntimeException("Falha em uma query para cadastro de comentário: " + ex);
         }
     }
 }

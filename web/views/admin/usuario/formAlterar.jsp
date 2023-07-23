@@ -20,7 +20,7 @@
                 <%
                     String userId = (String) request.getSession().getAttribute("usuarioId");
                     System.out.println("Retrieved usuarioId from session: " + userId);
-                    Usuario usuario = UsuarioDAO.getUsuario(userId);
+                    Usuario usuario = UsuarioDAO.getUsuario(Integer.parseInt(userId));
                     String msgError = (String) request.getAttribute("msgError");
                     if ((msgError != null) && (!msgError.isEmpty())) {%>
                 <div class="alert alert-danger" role="alert">

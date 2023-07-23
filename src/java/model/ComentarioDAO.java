@@ -51,36 +51,38 @@ public class ComentarioDAO implements Dao<Comentario> {
     }
 
     @Override
-    public void insert(Comentario t) {
+    public void insert(Comentario comentario) {
 
         Conexao conexao = new Conexao();
         try {
-            PreparedStatement sql = conexao.getConexao().prepareStatement("INSERT INTO Comentarios (cometario, data, idusuario) VALUES (?,?,?)");
-            sql.setString(1, t.getComentario());
-            sql.setString(2, t.getData());
-            sql.setInt(3, t.getIdusuario());
+            PreparedStatement sql = conexao.getConexao().prepareStatement("INSERT INTO Comentarios (COMENTARIO, DATA, IDCATEGORIA, IDUSUARIO) VALUES (?,?,?,?)");
+            sql.setString(1, comentario.getComentario());
+            sql.setString(2, comentario.getData());
+            sql.setInt(3, comentario.getIdcategoria());
+            sql.setInt(4, comentario.getIdusuario());
             sql.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Query de insert (comentario) incorreta");
+            throw new RuntimeException("Query de insert (comentario) incorreta: " + e);
         } finally {
             conexao.closeConexao();
         }
     }
 
     @Override
-    public void update(Comentario t) {
+    public void update(Comentario comentario) {
         Conexao conexao = new Conexao();
         try {
-            PreparedStatement sql = conexao.getConexao().prepareStatement("UPDATE Comentarios SET cometario = ?, data = ?, idusuario = ?, senha = ?  WHERE ID = ? ");
-            sql.setString(1, t.getComentario());
-            sql.setString(2, t.getData());
-            sql.setInt(3, t.getIdusuario());
-
+            PreparedStatement sql = conexao.getConexao().prepareStatement("UPDATE Comentarios SET COMENTARIO = ?, DATA = ?, IDCATEGORIA = ? ,IDUSUARIO = ?  WHERE ID = ? ");
+            sql.setString(1, comentario.getComentario());
+            sql.setString(2, comentario.getData());
+            sql.setInt(3, comentario.getIdcategoria());
+            sql.setInt(4, comentario.getIdusuario());
+            sql.setInt(5, comentario.getId());
             sql.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Query de update (alterar comentario) incorreta");
+            throw new RuntimeException("Query de update (alterar comentario) incorreta "+ e);
         } finally {
             conexao.closeConexao();
         }

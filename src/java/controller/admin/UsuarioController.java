@@ -1,10 +1,8 @@
-package controller;
+package controller.admin;
 
-import model.UsuarioDAO;
 import entidade.Usuario;
+import model.UsuarioDAO;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/UsuarioController")
+@WebServlet(name = "UsuarioController", urlPatterns = {"/UsuarioController"})
 public class UsuarioController extends HttpServlet {
 
     @Override
@@ -79,14 +77,31 @@ public class UsuarioController extends HttpServlet {
     }
 
     private void deletarUsuario(String usuarioId) throws Exception {
-        UsuarioDAO.ExcluirPorId(usuarioId);
+        UsuarioDAO user = new UsuarioDAO();
+        Usuario usuarioADeletar = user.getUsuario(Integer.parseInt(usuarioId));
+        UsuarioDAO.Excluir(usuarioADeletar);
     }
 
+//    private void alterarUsuario(String usuarioId, String nome, String endereco, String cpf, String senha) throws Exception {
+//
+//        Usuario user = new Usuario(nome, cpf, endereco, senha);
+//        user.setId(Integer.parseInt(usuarioId));
+//        UsuarioDAO.Alterar(user);
+//
+//    }
     private void alterarUsuario(String usuarioId, String nome, String endereco, String cpf, String senha) throws Exception {
-
-        Usuario user = new Usuario(nome, cpf, endereco, senha);
-        user.setId(Integer.parseInt(usuarioId));
+        // Create a new Usuario object
+        String userStatus = UsuarioDAO.getUserStatusById(usuarioId);
+        Usuario user = new Usuario(nome, cpf, endereco, senha, userStatus);
+        
+        // Parse the usuarioId to an Integer
+        int id = Integer.parseInt(usuarioId);
+        
+        // Set the id of the Usuario object
+        user.setId(id);
+        
+        // Call the static Alterar method in UsuarioDAO
         UsuarioDAO.Alterar(user);
-
     }
+
 }

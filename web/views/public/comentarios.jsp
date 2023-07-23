@@ -1,3 +1,4 @@
+<%@page import="model.CategoriaDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@page import="entidade.Comentario"%>
@@ -16,21 +17,23 @@
     </head>
     <body>
         <div class="container">
-            <jsp:include page="../comum/menu.jsp" />
-            <div class="mt-5">
+            <div class="mt-5 text-center">
                 <h1>Comentários dos usuários</h1>
                 <% Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
                     if (usuarioLogado != null) { %>
-                        <a href="/aplicacaoMVC/admin/MostrarComentariosAdmin?acao=Incluir" class="mb-2 btn btn-primary">Incluir</a>
-                <%  }  %>
-                
+                        <a href="/aplicacaoMVC/admin/MostrarComentariosAdmin?acao=Incluir" class="mb-2 btn btn-primary">Adicionar Comentário</a>
+                <%  }else{  %>
+                        <a href="/aplicacaoMVC/AutenticaController?acao=Login" class="mb-2 btn btn-primary">Entrar</a>
+                <%  }%>
+                    <a href="/aplicacaoMVC/home" class="mb-2 btn btn-secondary">Home</a>
                 <%
                     ArrayList<Comentario> listaComentarios = (ArrayList<Comentario>) request.getAttribute("listaComentarios");
+                    if (listaComentarios != null){
                     for (Comentario comentario : listaComentarios) {%>
 
-                <div class="card mb-2 col-sm-6">
+                <div class="card mb-2 col-sm-6 mx-auto">
                     <div class="card-body">                   
-                        <h6 class="card-subtitle mb-2 text-muted ">Usuário: <%= comentario.getNomeUsuario() %> </h6>                  
+                        <h6 class="card-subtitle mb-2 text-muted "><%= CategoriaDAO.getCategoriaNameById(comentario.getIdcategoria()) %></h6>                  
                         <p class="card-text">"<%= comentario.getComentario()%>"</p>
                         
                         <% if (usuarioLogado != null) { %>
@@ -40,11 +43,11 @@
                         
                        </div>
                     <div class="card-footer">
-                        <small class="text-muted">Data de publicação: <%= comentario.getData()%></small>                 
+                        <small class="text-muted">Postado por: <%= comentario.getNomeUsuario() %> em <%= comentario.getData()%></small>                 
                     </div>
                 </div>
 
-                <%  }%>
+                <%  }}%>
             
                 
             </div>
