@@ -21,6 +21,30 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
  */
 public class UsuarioDAO {
 
+    public static String getUserStatusById(String usuarioId) {
+        Conexao conexao = new Conexao();
+        String nomeUsuario = null;
+
+        try {
+            PreparedStatement sql = conexao.getConexao().prepareStatement("SELECT * FROM usuarios WHERE ID = ?");
+            sql.setString(1, usuarioId);
+            ResultSet resultSet = sql.executeQuery();
+
+            if (resultSet.next()) {
+                nomeUsuario = resultSet.getString("aprovado");
+            }
+
+            resultSet.close();
+            sql.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Query de select (get) incorreta");
+        } finally {
+            conexao.closeConexao();
+        return nomeUsuario;
+        }
+    }
+
     public void Inserir(Usuario usuario) throws Exception {
         Conexao conexao = new Conexao();
         try {
@@ -49,7 +73,6 @@ public class UsuarioDAO {
         ResultSet resultSet = sql.executeQuery();
         
         if (resultSet.next()) {
-            // Assuming the column name for the "nome" field is "nome" in the "usuarios" table
             nomeUsuario = resultSet.getString("nome");
         }
         
@@ -57,7 +80,6 @@ public class UsuarioDAO {
         sql.close();
         
     } catch (SQLException e) {
-        // Handle the exception (logging, throwing, or any other appropriate action)
         throw new RuntimeException("Query de select (get) incorreta");
     } finally {
         conexao.closeConexao();
@@ -66,11 +88,11 @@ public class UsuarioDAO {
     return nomeUsuario;
 }
  
-    public static Usuario getUsuario(String id) throws Exception {
+    public Usuario getUsuario(String id) throws Exception {
         return getUsuario(Integer.parseInt(id));
     }
     
-    public static Usuario getUsuario(int id) throws Exception {
+    public Usuario getUsuario(int id) throws Exception {
         Conexao conexao = new Conexao();
         try {
             Usuario usuario = new Usuario();
@@ -112,15 +134,15 @@ public class UsuarioDAO {
     }
     
     
-    public static void Alterar(Usuario Usuario) throws Exception {
+    public static void Alterar(Usuario usuario) throws Exception {
         Conexao conexao = new Conexao();
         try {
             PreparedStatement sql = conexao.getConexao().prepareStatement("UPDATE usuarios SET nome = ?, cpf = ?, endereco = ?, senha = ?  WHERE ID = ? ");
-            sql.setString(1, Usuario.getNome());
-            sql.setString(2, Usuario.getCpf());
-            sql.setString(3, Usuario.getEndereco());
-            sql.setString(4, Usuario.getSenha());
-            sql.setInt(5, Usuario.getId());
+            sql.setString(1, usuario.getNome());
+            sql.setString(2, usuario.getCpf());
+            sql.setString(3, usuario.getEndereco());
+            sql.setString(4, usuario.getSenha());
+            sql.setInt(5, usuario.getId());
             sql.executeUpdate();
 
         } catch (SQLException e) {
@@ -133,12 +155,15 @@ public class UsuarioDAO {
     public static void Excluir(Usuario Usuario) throws Exception {
         Conexao conexao = new Conexao();
         try {
-            PreparedStatement sql = conexao.getConexao().prepareStatement("DELETE FROM usuarios WHERE ID = ? ");
+            PreparedStatement sql = conexao.getConexao().prepareStatement("DELETE FROM comentarios WHERE idusuario = ?");
+            sql.setInt(1, Usuario.getId());
+            sql.executeUpdate();
+            sql = conexao.getConexao().prepareStatement("DELETE FROM usuarios WHERE ID = ? ");
             sql.setInt(1, Usuario.getId());
             sql.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Query de delete (excluir) incorreta");
+            throw new RuntimeException("Query de delete (excluir) incorreta" + e);
         } finally {
             conexao.closeConexao();
         }

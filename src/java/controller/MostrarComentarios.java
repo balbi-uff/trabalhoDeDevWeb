@@ -1,5 +1,7 @@
 package controller;
 
+// mostrar comentarios (publico)
+
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;

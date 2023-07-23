@@ -1,7 +1,10 @@
-<%@page import="model.UsuarioDAO"%>
-<%@page import="entidade.Comentario"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="model.CategoriaDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page import="entidade.Comentario"%>
+<%@page import="entidade.Usuario"%>
+<%@page import="java.util.ArrayList"%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -14,26 +17,41 @@
     </head>
     <body>
         <div class="container">
-            <jsp:include page="../comum/menu.jsp" />
-            <div class="mt-5">
+            <div class="mt-5 text-center">
                 <h1>Comentários dos usuários</h1>
-
+                <% Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
+                    if (usuarioLogado != null) { %>
+                        <a href="/aplicacaoMVC/admin/MostrarComentariosAdmin?acao=Incluir" class="mb-2 btn btn-primary">Adicionar Comentário</a>
+                <%  }else{  %>
+                        <a href="/aplicacaoMVC/AutenticaController?acao=Login" class="mb-2 btn btn-primary">Entrar</a>
+                <%  }%>
+                    <a href="/aplicacaoMVC/home" class="mb-2 btn btn-secondary">Home</a>
                 <%
                     ArrayList<Comentario> listaComentarios = (ArrayList<Comentario>) request.getAttribute("listaComentarios");
-                    for (Comentario comentario : listaComentarios){ %>
+                    if (listaComentarios != null){
+                    for (Comentario comentario : listaComentarios) {%>
 
-                <div class="card mb-2 col-sm-6">
-                    <div class="card-body">
-                        <p><%= comentario.getComentario()%></p>
-                        <p>ID do usuário: <%= comentario.getNomeUsuario()%></p>
-                        <p>Data do comentário: <%= comentario.getData()%></p>
+                <div class="card mb-2 col-sm-6 mx-auto">
+                    <div class="card-body">                   
+                        <h6 class="card-subtitle mb-2 text-muted "><%= CategoriaDAO.getCategoriaNameById(comentario.getIdcategoria()) %></h6>                  
+                        <p class="card-text">"<%= comentario.getComentario()%>"</p>
+                        
+                        <% if (usuarioLogado != null) { %>
+                            <a href="/aplicacaoMVC/admin/MostrarComentariosAdmin?acao=Alterar&id=<%=comentario.getId()%>" class="mb-2 btn btn-warning">Alterar</a>
+                            <a href="/aplicacaoMVC/admin/MostrarComentariosAdmin?acao=Excluir&id=<%=comentario.getId()%>" class="mb-2 btn btn-danger">Excluir</a>
+                        <%  }  %>
+                        
+                       </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Postado por: <%= comentario.getNomeUsuario() %> em <%= comentario.getData()%></small>                 
                     </div>
                 </div>
 
-                <%  }%>
+                <%  }}%>
+            
+                
             </div>
         </div>
         <script src="http://localhost:8080/aplicacaoMVC/views/bootstrap/bootstrap.bundle.min.js"></script>
     </body>
 </html>
-

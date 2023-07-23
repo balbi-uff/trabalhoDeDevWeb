@@ -1,9 +1,3 @@
-<%--
-    Document   : dashboard
-    Created on : 14 Jul 2023, 17:24:10
-    Author     : balbi
---%>
-
 <%@page import="model.UsuarioDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>

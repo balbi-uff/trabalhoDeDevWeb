@@ -44,6 +44,28 @@ public class CategoriaDAO implements Dao<Categoria> {
         return categoria;
     }
 
+    public static String getCategoriaNameById(int id){
+        Conexao conexao = new Conexao();
+        Categoria categoria = new Categoria();
+        try {
+            PreparedStatement sql = conexao.getConexao().prepareStatement("SELECT * FROM Categorias WHERE ID = ? ");
+            sql.setInt(1, id);
+            ResultSet resultado = sql.executeQuery();
+
+            if (resultado != null) {
+                while (resultado.next()) {
+                    categoria.setId(Integer.parseInt(resultado.getString("ID")));
+                    categoria.setDescricao(resultado.getString("DESCRICAO"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Query de select (get categoria) incorreta");
+        } finally {
+            conexao.closeConexao();
+        }
+        return categoria.getDescricao();
+    }
+    
     @Override
     public void insert(Categoria t) {
 

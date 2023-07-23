@@ -21,7 +21,7 @@
                     out.println("<br>");
                     out.println("<h3>Por favor, faça login com um usuário autorizado para acessar o conteúdo.</p>");
                     out.println("<h3>Nome do usuário logado: " + usuarioLogado.getNome() + "</h2>");
-                    out.println("<h3>ME REMOVA DEPOIS! id / status: " + usuarioLogado.getId() + "|" + usuarioLogado.getStatus() + "</h2>");
+                    out.println("<h3>ME REMOVA DEPOIS! id: " + usuarioLogado.getId() + " | Status: " + usuarioLogado.getStatus() + "</h2>");
                     
                 %>
 

@@ -13,6 +13,7 @@ import model.UsuarioDAO;
 import Utils.RequestUtils;
 
 
+
 @WebServlet(name = "RegistrarController", urlPatterns = {"/RegistrarController"})
 public class RegistrarController extends HttpServlet {
 
